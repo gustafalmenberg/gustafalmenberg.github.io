@@ -1,570 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gustaf Almenberg</title>
   <style>
-    :root {
-      --bg: #0b1020;
-      --panel: rgba(255, 255, 255, 0.08);
-      --panel-border: rgba(255, 255, 255, 0.14);
-      --text: #e8ecf3;
-      --muted: #aab4c5;
-      --accent: #7c9cff;
-      --accent-2: #72e6c8;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-      --radius: 20px;
-      --max-width: 1120px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(124, 156, 255, 0.22), transparent 28%),
-        radial-gradient(circle at top right, rgba(114, 230, 200, 0.18), transparent 24%),
-        linear-gradient(180deg, #0b1020 0%, #10182d 100%);
-      min-height: 100vh;
+      background: #f7f7f7;
+      color: #222;
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
     .container {
-      width: min(calc(100% - 2rem), var(--max-width));
+      max-width: 800px;
       margin: 0 auto;
+      padding: 40px 20px;
+      background: #ffffff;
     }
 
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(18px);
-      background: rgba(11, 16, 32, 0.55);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+    header {
+      text-align: center;
+      margin-bottom: 40px;
     }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 0;
-      gap: 1rem;
-    }
-
-    .brand {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .hero {
-      padding: 6.5rem 0 4rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.9fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.45rem 0.8rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-bottom: 1.2rem;
-    }
-
-    h1, h2, h3 {
-      line-height: 1.1;
-      margin: 0 0 1rem;
+    header img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #ddd;
+      display: block;
+      margin: 0 auto 20px;
     }
 
     h1 {
-      font-size: clamp(2.6rem, 6vw, 5rem);
-      letter-spacing: -0.04em;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      letter-spacing: -0.03em;
-    }
-
-    p {
-      margin: 0 0 1rem;
-      color: var(--muted);
-    }
-
-    .hero p {
-      font-size: 1.08rem;
-      max-width: 60ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1.75rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0.85rem 1.2rem;
-      border-radius: 999px;
-      border: 1px solid transparent;
+      margin: 0;
+      font-size: 2em;
       font-weight: 600;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #9c7cff);
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-      color: var(--text);
-    }
-
-    .hero-card,
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius);
-    }
-
-    .hero-card {
-      padding: 1.5rem;
-    }
-
-    .profile-block {
-      aspect-ratio: 4 / 5;
-      border-radius: 16px;
-      background:
-        linear-gradient(160deg, rgba(124,156,255,0.24), rgba(114,230,200,0.12)),
-        rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-
-    .profile-placeholder {
-      width: 78%;
-      height: 78%;
-      border-radius: 20px;
-      background:
-        radial-gradient(circle at 50% 28%, rgba(255,255,255,0.34) 0 8%, transparent 8.5%),
-        radial-gradient(circle at 50% 58%, rgba(255,255,255,0.18) 0 23%, transparent 23.5%),
-        linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
-      filter: blur(0.2px);
-      opacity: 0.9;
-    }
-
-    .stats {
-      margin-top: 1rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
-
-    .stat {
-      padding: 1rem;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.1rem;
-      margin-bottom: 0.15rem;
-      color: var(--text);
+    .subtitle {
+      color: #666;
+      margin-top: 5px;
     }
 
     section {
-      padding: 1.4rem 0 1rem;
+      margin-bottom: 35px;
     }
 
-    .section-header {
-      margin-bottom: 1.4rem;
+    h2 {
+      font-size: 1.3em;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
     }
 
-    .grid-3,
-    .grid-2 {
-      display: grid;
-      gap: 1.2rem;
+    h3 {
+      font-size: 1.05em;
+      margin-top: 20px;
+      color: #444;
     }
 
-    .grid-3 {
-      grid-template-columns: repeat(3, 1fr);
+    ul {
+      padding-left: 20px;
     }
 
-    .grid-2 {
-      grid-template-columns: repeat(2, 1fr);
+    li {
+      margin-bottom: 10px;
     }
 
-    .card {
-      padding: 1.4rem;
+    a {
+      color: #0066cc;
+      text-decoration: none;
     }
 
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.7rem;
+    a:hover {
+      text-decoration: underline;
     }
 
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      margin-top: 1rem;
+    .small {
+      color: #666;
+      font-size: 0.95em;
     }
 
-    .tag {
-      font-size: 0.9rem;
-      color: var(--text);
-      padding: 0.45rem 0.75rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .project {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .project-thumb {
-      border-radius: 14px;
-      height: 180px;
-      background:
-        linear-gradient(135deg, rgba(124,156,255,0.28), rgba(114,230,200,0.16)),
-        rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .timeline {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .timeline-item {
-      padding-left: 1rem;
-      border-left: 2px solid rgba(124,156,255,0.55);
-    }
-
-    .timeline-item span {
-      display: inline-block;
-      font-size: 0.92rem;
-      color: var(--accent-2);
-      margin-bottom: 0.45rem;
-    }
-
-    .contact-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 0.5rem;
-    }
-
-    .contact-links a {
-      padding: 0.7rem 0.9rem;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
-      color: var(--text);
-    }
-
-    .site-footer {
-      padding: 2rem 0 3rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .grid-3,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 4.5rem;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #777;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav">
-      <a href="#" class="brand">YOUR NAME</a>
-      <nav class="nav-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Available for opportunities</div>
-          <h1>Hi, I'm Your Name — I build thoughtful digital experiences.</h1>
-          <p>
-            This is a simple, modern one-page personal website template. Replace this text
-            with a short introduction about who you are, what you do, and what makes your work interesting.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#projects">View Projects</a>
-            <a class="btn btn-secondary" href="#contact">Get in Touch</a>
-          </div>
-        </div>
+  <div class="container">
 
-        <div class="hero-card">
-          <div class="profile-block">
-            <div class="profile-placeholder" aria-hidden="true"></div>
-          </div>
+    <header>
+      <img src="photo.png" alt="Portrait of Gustaf Almenberg">
+      <h1>Gustaf Almenberg</h1>
+      <div class="subtitle">Stockholm, Sweden · Born 1945</div>
+    </header>
 
-          <div class="stats">
-            <div class="stat">
-              <strong>5+</strong>
-              <span>Years experience</span>
-            </div>
-            <div class="stat">
-              <strong>12</strong>
-              <span>Featured projects</span>
-            </div>
-            <div class="stat">
-              <strong>3</strong>
-              <span>Core specialties</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:Gustaf.almenberg@gmail.com">Gustaf.almenberg@gmail.com</a></p>
     </section>
 
-    <section id="about">
-      <div class="container">
-        <div class="section-header">
-          <h2>About</h2>
-          <p>
-            Use this section for a slightly longer introduction. You can describe your background,
-            your values, your approach to work, or the types of projects you enjoy most.
-          </p>
-        </div>
-
-        <div class="grid-2">
-          <div class="card">
-            <h3>What I Do</h3>
-            <p>
-              Share a concise overview of your work. This could be software development, design,
-              writing, consulting, research, photography, or any other discipline.
-            </p>
-          </div>
-          <div class="card">
-            <h3>What I Care About</h3>
-            <p>
-              Add a few sentences about your priorities: clarity, performance, accessibility,
-              collaboration, craftsmanship, experimentation, or customer impact.
-            </p>
-          </div>
-        </div>
-      </div>
+    <section>
+      <h2>Family</h2>
+      <ul>
+        <li>Erik Almenberg – <a href="#">LinkedIn</a></li>
+        <li>Johan Almenberg – <a href="https://www.fi.se/publicerat/nyheter/2025/johan-almenberg-ny-generaldirektor-for-fi/" target="_blank">Director General announcement</a></li>
+      </ul>
     </section>
 
-    <section id="skills">
-      <div class="container">
-        <div class="section-header">
-          <h2>Skills</h2>
-          <p>
-            Replace these with your own tools, technologies, capabilities, or service areas.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="tag-list">
-            <span class="tag">Skill One</span>
-            <span class="tag">Skill Two</span>
-            <span class="tag">Skill Three</span>
-            <span class="tag">Skill Four</span>
-            <span class="tag">Skill Five</span>
-            <span class="tag">Skill Six</span>
-            <span class="tag">Skill Seven</span>
-            <span class="tag">Skill Eight</span>
-          </div>
-        </div>
-      </div>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        Gustaf Almenberg is based in Stockholm, Sweden. His work spans dynamic systems thinking, participatory art, and interdisciplinary exploration across psychiatry, philosophy, and healthcare systems.
+      </p>
     </section>
 
-    <section id="projects">
-      <div class="container">
-        <div class="section-header">
-          <h2>Projects</h2>
-          <p>
-            Add a few highlighted projects, each with a short description, outcome, and link.
-          </p>
-        </div>
+    <section>
+      <h2>Areas of Interest</h2>
 
-        <div class="grid-3">
-          <article class="card project">
-            <div class="project-thumb"></div>
-            <div>
-              <h3>Project One</h3>
-              <p>A short project description goes here. Explain what it is and why it matters.</p>
-            </div>
-          </article>
+      <ul>
+        <li>
+          <strong>Participatory Art</strong> – Development of participatory approaches in sculpture and photography.
+        </li>
 
-          <article class="card project">
-            <div class="project-thumb"></div>
-            <div>
-              <h3>Project Two</h3>
-              <p>Use this card to highlight another piece of work, a case study, or a product.</p>
-            </div>
-          </article>
+        <li>
+          <strong>Reconceptualising Psychiatry</strong> – Toward a more integrated framework complementing DSM and ICD models.
+        </li>
 
-          <article class="card project">
-            <div class="project-thumb"></div>
-            <div>
-              <h3>Project Three</h3>
-              <p>Keep the copy brief and scannable. You can turn these into links later.</p>
-            </div>
-          </article>
-        </div>
-      </div>
+        <li>
+          <strong>Healthcare Systems</strong> – Organizational models for national healthcare and systemic reform.
+        </li>
+
+        <li>
+          <strong>Interdisciplinary Dynamics</strong> – Work at the intersection of psychology, psychiatry, philosophy, and theology.
+        </li>
+      </ul>
     </section>
 
-    <section id="experience">
-      <div class="container">
-        <div class="section-header">
-          <h2>Experience</h2>
-          <p>
-            A simple timeline works well for jobs, freelance work, education, or major milestones.
-          </p>
-        </div>
+    <section>
+      <h2>Publications</h2>
 
-        <div class="card timeline">
-          <div class="timeline-item">
-            <span>2024 — Present</span>
-            <h3>Role Title at Company</h3>
-            <p>Briefly describe your role, scope, and one or two notable contributions.</p>
-          </div>
+      <h3>Art & Aesthetics</h3>
+      <ul>
+        <li>
+          <em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em> (2010)
+        </li>
+      </ul>
 
-          <div class="timeline-item">
-            <span>2021 — 2024</span>
-            <h3>Previous Role or Milestone</h3>
-            <p>Summarize the work you did, what you learned, or the impact you created.</p>
-          </div>
+      <h3>Psychiatry & Psychotherapy</h3>
+      <ul>
+        <li>
+          <em>Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm</em>, Tidskriften för Svensk Psykiatri, 4 (2025)
+        </li>
+        <li>
+          <em>Handbok i reflektion kring borderline (EIPS)</em> (2019)
+        </li>
+        <li>
+          <em>Psykoterapi i förvandling – befrielserörelse eller byråkrati? Om psykoterapins framtid i Sverige</em> (1987)
+        </li>
+      </ul>
 
-          <div class="timeline-item">
-            <span>2018 — 2021</span>
-            <h3>Earlier Experience</h3>
-            <p>Add another role, degree, certification, or formative project here.</p>
-          </div>
-        </div>
-      </div>
+      <h3>Healthcare Systems</h3>
+      <ul>
+        <li>
+          <em>Kan den bli bättre – sjukvården? En samspelsmodell bortom patientcentrerad vård</em> (2015)
+        </li>
+        <li>
+          Articles in <em>Dagens Medicin</em>
+        </li>
+      </ul>
+
+      <h3>Other Publications</h3>
+      <ul>
+        <li>Contributions to <em>Financial Times</em></li>
+        <li>Publications with Orient-Institut Istanbul</li>
+      </ul>
+
     </section>
 
-    <section id="contact">
-      <div class="container">
-        <div class="section-header">
-          <h2>Contact</h2>
-          <p>
-            Make it easy for visitors to reach you. Swap in your own contact details and links.
-          </p>
-        </div>
-
-        <div class="card contact-card">
-          <p>Email: hello@example.com</p>
-          <p>Location: Your City, Country</p>
-          <div class="contact-links">
-            <a href="#">LinkedIn</a>
-            <a href="#">GitHub</a>
-            <a href="#">Portfolio</a>
-            <a href="#">Resume</a>
-          </div>
-        </div>
-      </div>
+    <section>
+      <h2>Work in Progress</h2>
+      <p>
+        Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.
+      </p>
     </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Your Name. All rights reserved.</p>
-    </div>
-  </footer>
+    <footer>
+      © Gustaf Almenberg
+    </footer>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  </div>
+
 </body>
 </html>
