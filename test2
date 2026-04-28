@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Board</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    .board {
+      position: relative;
+      width: 90vmin;
+      max-width: 700px;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .board-image {
+      width: 100%;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .stone {
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      transform-origin: center;
+      transition: transform 0.15s ease;
+      border-radius: 50%;
+      perspective: 600px;
+    }
+
+    .stone img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 50%;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      filter:
+        drop-shadow(5px 7px 5px rgba(0,0,0,0.55))
+        contrast(1.08)
+        saturate(1.05);
+    }
+
+    .stone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 22%,
+          rgba(255,255,255,0.55),
+          rgba(255,255,255,0.16) 22%,
+          rgba(0,0,0,0.05) 48%,
+          rgba(0,0,0,0.35) 100%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.65;
+    }
+
+    .stone::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      box-shadow:
+        inset -8px -10px 12px rgba(0,0,0,0.35),
+        inset 5px 5px 8px rgba(255,255,255,0.2);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .stone:active {
+      cursor: grabbing;
+    }
+
+    .back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      opacity: 0.7;
+      z-index: 100;
+    }
+
+    .back:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="index.html" class="back">← Back</a>
+
+  <div class="board" id="board">
+    <img src="board.jpg" class="board-image" alt="Board">
+
+    <div class="stone" style="left: 80px; top: 80px;">
+      <img src="stone1.png" draggable="false" alt="Stone 1">
+    </div>
+
+    <div class="stone" style="left: 160px; top: 160px;">
+      <img src="stone2.png" draggable="false" alt="Stone 2">
+    </div>
+  </div>
+
+  <script>
+    const board = document.getElementById("board");
+    const stones = document.querySelectorAll(".stone");
+
+    let activeStone = null;
+    let offsetX = 0;
+    let offsetY = 0;
+    let startX = 0;
+    let startY = 0;
+    let moved = false;
+
+    stones.forEach((stone) => {
+      stone.dataset.rotation = "0";
+      stone.addEventListener("mousedown", startMouseDrag);
+      stone.addEventListener("touchstart", startTouchDrag, { passive: false });
+    });
+
+    function startMouseDrag(event) {
+      event.preventDefault();
+      startDrag(event.clientX, event.clientY, event.currentTarget);
+
+      document.addEventListener("mousemove", moveMouseStone);
+      document.addEventListener("mouseup", stopDrag);
+    }
+
+    function startTouchDrag(event) {
+      event.preventDefault();
+
+      const touch = event.touches[0];
+      startDrag(touch.clientX, touch.clientY, event.currentTarget);
+
+      document.addEventListener("touchmove", moveTouchStone, { passive: false });
+      document.addEventListener("touchend", stopDrag);
+      document.addEventListener("touchcancel", stopDrag);
+    }
+
+    function startDrag(clientX, clientY, target) {
+      activeStone = target;
+      moved = false;
+
+      startX = clientX;
+      startY = clientY;
+
+      const rect = activeStone.getBoundingClientRect();
+      offsetX = clientX - rect.left;
+      offsetY = clientY - rect.top;
+
+      activeStone.style.zIndex = "20";
+    }
+
+    function moveMouseStone(event) {
+      moveStone(event.clientX, event.clientY);
+    }
+
+    function moveTouchStone(event) {
+      event.preventDefault();
+
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      moveStone(touch.clientX, touch.clientY);
+    }
+
+    function moveStone(clientX, clientY) {
+      if (!activeStone) return;
+
+      const distance = Math.hypot(clientX - startX, clientY - startY);
+      if (distance > 4) moved = true;
+
+      const boardRect = board.getBoundingClientRect();
+
+      let x = clientX - boardRect.left - offsetX;
+      let y = clientY - boardRect.top - offsetY;
+
+      x = Math.max(0, Math.min(x, boardRect.width - activeStone.offsetWidth));
+      y = Math.max(0, Math.min(y, boardRect.height - activeStone.offsetHeight));
+
+      const previousX = parseFloat(activeStone.dataset.lastX || x);
+      const previousY = parseFloat(activeStone.dataset.lastY || y);
+
+      const dx = x - previousX;
+      const dy = y - previousY;
+
+      const tiltY = Math.max(-14, Math.min(14, dx * 0.7));
+      const tiltX = Math.max(-14, Math.min(14, -dy * 0.7));
+
+      const rotation = activeStone.dataset.rotation || "0";
+
+      activeStone.style.left = x + "px";
+      activeStone.style.top = y + "px";
+      activeStone.style.transform =
+        "rotate(" + rotation + "deg) rotateX(" + tiltX + "deg) rotateY(" + tiltY + "deg) scale(1.05)";
+
+      activeStone.dataset.lastX = x;
+      activeStone.dataset.lastY = y;
+    }
+
+    function stopDrag() {
+      if (activeStone && !moved) {
+        let rotation = parseFloat(activeStone.dataset.rotation || "0");
+        rotation += 15;
+        activeStone.dataset.rotation = rotation;
+      }
+
+      if (activeStone) {
+        const rotation = activeStone.dataset.rotation || "0";
+        activeStone.style.transform = "rotate(" + rotation + "deg)";
+        activeStone.dataset.lastX = "";
+        activeStone.dataset.lastY = "";
+      }
+
+      activeStone = null;
+
+      document.removeEventListener("mousemove", moveMouseStone);
+      document.removeEventListener("mouseup", stopDrag);
+
+      document.removeEventListener("touchmove", moveTouchStone);
+      document.removeEventListener("touchend", stopDrag);
+      document.removeEventListener("touchcancel", stopDrag);
+    }
+  </script>
+
+</body>
+</html>
