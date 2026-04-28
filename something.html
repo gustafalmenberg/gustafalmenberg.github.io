@@ -50,17 +50,11 @@
       pointer-events: none;
       user-select: none;
       -webkit-user-drag: none;
+      filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.5));
     }
 
-    .marker {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: red;
-      border-radius: 50%;
-      top: 6px;
-      left: 21px;
-      pointer-events: none;
+    .stone:active {
+      cursor: grabbing;
     }
 
     .back {
@@ -73,6 +67,10 @@
       opacity: 0.7;
       z-index: 100;
     }
+
+    .back:hover {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -84,13 +82,11 @@
     <img src="board.jpg" class="board-image" alt="Board">
 
     <div class="stone" style="left: 80px; top: 80px;">
-      <img src="stone1.png" draggable="false" alt="Stone 1">
-      <div class="marker"></div>
+      <img src="stone1.png" draggable="false">
     </div>
 
     <div class="stone" style="left: 160px; top: 160px;">
-      <img src="stone2.png" draggable="false" alt="Stone 2">
-      <div class="marker"></div>
+      <img src="stone2.png" draggable="false">
     </div>
   </div>
 
@@ -175,16 +171,20 @@
 
       activeStone.style.left = x + "px";
       activeStone.style.top = y + "px";
-      activeStone.style.transform = "rotate(" + rotation + "deg)";
+      activeStone.style.transform = "rotate(" + rotation + "deg) scale(1.02)";
     }
 
     function stopDrag() {
       if (activeStone && !moved) {
         let rotation = parseFloat(activeStone.dataset.rotation || "0");
-        rotation += 30;
+        rotation += 15;
 
         activeStone.dataset.rotation = rotation;
-        activeStone.style.transform = "rotate(" + rotation + "deg)";
+        activeStone.style.transform = "rotate(" + rotation + "deg) scale(1)";
+      }
+
+      if (activeStone) {
+        activeStone.style.transform = "rotate(" + (activeStone.dataset.rotation || 0) + "deg)";
       }
 
       activeStone = null;
