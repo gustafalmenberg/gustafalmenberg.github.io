@@ -38,14 +38,29 @@
       height: 50px;
       cursor: grab;
       user-select: none;
-      -webkit-user-drag: none;
       touch-action: none;
       transform-origin: center;
       transition: transform 0.15s ease;
     }
 
-    .stone:active {
-      cursor: grabbing;
+    .stone img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .marker {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+      top: 6px;
+      left: 21px;
+      pointer-events: none;
     }
 
     .back {
@@ -58,10 +73,6 @@
       opacity: 0.7;
       z-index: 100;
     }
-
-    .back:hover {
-      opacity: 1;
-    }
   </style>
 </head>
 
@@ -72,8 +83,15 @@
   <div class="board" id="board">
     <img src="board.jpg" class="board-image" alt="Board">
 
-    <img src="stone1.png" class="stone" draggable="false" style="left: 80px; top: 80px;">
-    <img src="stone2.png" class="stone" draggable="false" style="left: 160px; top: 160px;">
+    <div class="stone" style="left: 80px; top: 80px;">
+      <img src="stone1.png" draggable="false" alt="Stone 1">
+      <div class="marker"></div>
+    </div>
+
+    <div class="stone" style="left: 160px; top: 160px;">
+      <img src="stone2.png" draggable="false" alt="Stone 2">
+      <div class="marker"></div>
+    </div>
   </div>
 
   <script>
@@ -91,12 +109,11 @@
       stone.dataset.rotation = "0";
       stone.addEventListener("mousedown", startMouseDrag);
       stone.addEventListener("touchstart", startTouchDrag, { passive: false });
-      stone.addEventListener("dragstart", (event) => event.preventDefault());
     });
 
     function startMouseDrag(event) {
       event.preventDefault();
-      startDrag(event.clientX, event.clientY, event.target);
+      startDrag(event.clientX, event.clientY, event.currentTarget);
 
       document.addEventListener("mousemove", moveMouseStone);
       document.addEventListener("mouseup", stopDrag);
@@ -106,7 +123,7 @@
       event.preventDefault();
 
       const touch = event.touches[0];
-      startDrag(touch.clientX, touch.clientY, event.target);
+      startDrag(touch.clientX, touch.clientY, event.currentTarget);
 
       document.addEventListener("touchmove", moveTouchStone, { passive: false });
       document.addEventListener("touchend", stopDrag);
@@ -121,7 +138,6 @@
       startY = clientY;
 
       const rect = activeStone.getBoundingClientRect();
-
       offsetX = clientX - rect.left;
       offsetY = clientY - rect.top;
 
@@ -165,7 +181,7 @@
     function stopDrag() {
       if (activeStone && !moved) {
         let rotation = parseFloat(activeStone.dataset.rotation || "0");
-        rotation += 15;
+        rotation += 30;
 
         activeStone.dataset.rotation = rotation;
         activeStone.style.transform = "rotate(" + rotation + "deg)";
