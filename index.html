@@ -35,6 +35,17 @@
       margin: 0 auto 20px;
     }
 
+    /* NEW: draggable styling */
+    .draggable {
+      cursor: grab;
+      user-select: none;
+      position: relative;
+    }
+
+    .draggable:active {
+      cursor: grabbing;
+    }
+
     h1 {
       margin: 0;
       font-size: 2em;
@@ -98,7 +109,8 @@
   <div class="container">
 
     <header>
-      <img src="photo.png" alt="Portrait of Gustaf Almenberg">
+      <!-- UPDATED: added draggable class -->
+      <img class="draggable" src="photo.png" alt="Portrait of Gustaf Almenberg">
       <h1>Gustaf Almenberg</h1>
       <div class="subtitle">Stockholm, Sweden</div>
     </header>
@@ -148,33 +160,44 @@
       <h3>Art</h3>
       <ul>
         <li>
-          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010) ISBN: 978-1-4520-3956-5</ul>(First solo exhibition at Galleri Händer, Stockholm, in 1982)
+          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010) ISBN: 978-1-4520-3956-5
         </li>
+      </ul>
+      <p class="small">(First solo exhibition at Galleri Händer, Stockholm, in 1982)</p>
 
       <h3>Psychiatry & Psychotherapy</h3>
       <ul>
         <li>
-          "Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)</a>
+          "Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm", 
+          <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf">
+            <em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)
+          </a>
         </li>
         <li>
-        <a href="https://libris.kb.se/bib/2cd401g603frhcn8"><em>Handbok i reflektion kring borderline/EIPS</em></a> (2019) ISBN: 978-91-7819-161-1
+          <a href="https://libris.kb.se/bib/2cd401g603frhcn8">
+            <em>Handbok i reflektion kring borderline/EIPS</em>
+          </a> (2019)
         </li>
         <li>
-          <a href="https://libris.kb.se/bib/7281229"><em>Psykoterapi i förvandling: befrielserörelse eller byråkrati? : Om psykoterapins framtid i Sverige</em></a> (1987) ISBN: 978-91-4615-418-1
+          <a href="https://libris.kb.se/bib/7281229">
+            <em>Psykoterapi i förvandling</em>
+          </a> (1987)
         </li>
       </ul>
 
       <h3>National Healthcare Systems</h3>
       <ul>
         <li>
-            <a href="https://libris.kb.se/bib/17754290"><em>Kan den bli bättre – sjukvården? : En samspelsmodell bortom patientcentrerad vård</em></a> (2015) ISBN: 978-91-7609-616-1
+          <a href="https://libris.kb.se/bib/17754290">
+            <em>Kan den bli bättre – sjukvården?</em>
+          </a> (2015)
         </li>
         <li>
-            <a href="https://libris.kb.se/bib/8845846"><em>Leadership Dynamics: some reflections on business leadership</em></a> (2002) ISBN: 978-91-8631-209-1
+          <a href="https://libris.kb.se/bib/8845846">
+            <em>Leadership Dynamics</em>
+          </a> (2002)
         </li>
-        <li>
-          Articles in <em>Dagens Medicin</em>
-        </li>
+        <li>Articles in <em>Dagens Medicin</em></li>
       </ul>
 
       <h3>Other Publications</h3>
@@ -197,6 +220,39 @@
     </footer>
 
   </div>
+
+  <!-- NEW: draggable script -->
+  <script>
+    const draggables = document.querySelectorAll(".draggable");
+
+    draggables.forEach((el) => {
+      let offsetX = 0;
+      let offsetY = 0;
+      let isDragging = false;
+
+      el.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+
+        el.style.position = "absolute";
+        el.style.zIndex = "1000";
+
+        el.setPointerCapture(e.pointerId);
+      });
+
+      el.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+
+        el.style.left = `${e.clientX - offsetX}px`;
+        el.style.top = `${e.clientY - offsetY}px`;
+      });
+
+      el.addEventListener("pointerup", () => {
+        isDragging = false;
+      });
+    });
+  </script>
 
 </body>
 </html>
