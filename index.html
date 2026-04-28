@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +12,37 @@
       background: #f7f7f7;
       color: #222;
       line-height: 1.6;
+    }
+
+    /* NEW: NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #ddd;
+      background: #fafafa;
+      font-size: 14px;
+    }
+
+    .nav-left {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .nav-right a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #777;
+    }
+
+    .nav-right a:hover {
+      color: #000;
+    }
+
+    .nav-right a.active {
+      color: #000;
+      font-weight: 500;
     }
 
     .container {
@@ -130,6 +160,16 @@
 </head>
 
 <body>
+
+  <!-- NEW: NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">Gustaf Almenberg</div>
+    <div class="nav-right">
+      <a href="index.html" class="active">Home</a>
+      <a href="test.html">Test</a>
+    </div>
+  </nav>
+
   <div class="container">
 
     <header>
@@ -169,7 +209,7 @@
       <h3>Art</h3>
       <ul>
         <li>
-          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010) ISBN: 978-1-4520-3956-5
+          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010)
           <br>
           <span class="small">(First solo exhibition at Galleri Händer, Stockholm, in 1982)</span>
         </li>
@@ -177,28 +217,13 @@
 
       <h3>Psychiatry & Psychotherapy</h3>
       <ul>
-        <li>"Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)</a></li>
-        <li><a href="https://libris.kb.se/bib/2cd401g603frhcn8"><em>Handbok i reflektion kring borderline/EIPS</em></a> (2019) ISBN: 978-91-7819-161-1</li>
-        <li><a href="https://libris.kb.se/bib/7281229"><em>Psykoterapi i förvandling: befrielserörelse eller byråkrati? : Om psykoterapins framtid i Sverige</em></a> (1987) ISBN: 978-91-4615-418-1</li>
-      </ul>
-
-      <h3>National Healthcare Systems</h3>
-      <ul>
-        <li><a href="https://libris.kb.se/bib/17754290"><em>Kan den bli bättre – sjukvården? : En samspelsmodell bortom patientcentrerad vård</em></a> (2015) ISBN: 978-91-7609-616-1</li>
-        <li><a href="https://libris.kb.se/bib/8845846"><em>Leadership Dynamics: some reflections on business leadership</em></a> (2002) ISBN: 978-91-8631-209-1</li>
-        <li>Articles in <em>Dagens Medicin</em></li>
-      </ul>
-
-      <h3>Other Publications</h3>
-      <ul>
-        <li>Contributions to <em>Financial Times</em></li>
-        <li>Publications with Orient-Institut Istanbul</li>
+        <li>"Om behovet...", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em></a></li>
       </ul>
     </section>
 
     <section>
       <h2>Work in Progress</h2>
-      <p>Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.</p>
+      <p>Ongoing research...</p>
     </section>
 
     <section class="board-section">
@@ -207,8 +232,8 @@
       <div class="board" id="board">
         <img src="board.jpg" class="board-image" alt="Board">
 
-        <img src="stone1.png" class="stone" alt="Stone 1" draggable="false" style="left: 80px; top: 80px;">
-        <img src="stone2.png" class="stone" alt="Stone 2" draggable="false" style="left: 160px; top: 160px;">
+        <img src="stone1.png" class="stone" draggable="false" style="left: 80px; top: 80px;">
+        <img src="stone2.png" class="stone" draggable="false" style="left: 160px; top: 160px;">
       </div>
     </section>
 
@@ -233,15 +258,11 @@
 
     function startDrag(event) {
       event.preventDefault();
-
       activeStone = event.target;
 
-      const stoneRect = activeStone.getBoundingClientRect();
-
-      offsetX = event.clientX - stoneRect.left;
-      offsetY = event.clientY - stoneRect.top;
-
-      activeStone.style.zIndex = "20";
+      const rect = activeStone.getBoundingClientRect();
+      offsetX = event.clientX - rect.left;
+      offsetY = event.clientY - rect.top;
 
       document.addEventListener("mousemove", moveStone);
       document.addEventListener("mouseup", stopDrag);
@@ -264,7 +285,6 @@
 
     function stopDrag() {
       activeStone = null;
-
       document.removeEventListener("mousemove", moveStone);
       document.removeEventListener("mouseup", stopDrag);
     }
@@ -272,5 +292,3 @@
 
 </body>
 </html>
-```
-
