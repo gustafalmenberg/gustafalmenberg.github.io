@@ -14,7 +14,6 @@
       line-height: 1.6;
     }
 
-    /* NEW: NAVBAR */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -161,7 +160,6 @@
 
 <body>
 
-  <!-- NEW: NAVBAR -->
   <nav class="navbar">
     <div class="nav-left">Gustaf Almenberg</div>
     <div class="nav-right">
@@ -209,7 +207,7 @@
       <h3>Art</h3>
       <ul>
         <li>
-          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010)
+          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010) ISBN: 978-1-4520-3956-5
           <br>
           <span class="small">(First solo exhibition at Galleri Händer, Stockholm, in 1982)</span>
         </li>
@@ -217,13 +215,28 @@
 
       <h3>Psychiatry & Psychotherapy</h3>
       <ul>
-        <li>"Om behovet...", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em></a></li>
+        <li>"Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)</a></li>
+        <li><a href="https://libris.kb.se/bib/2cd401g603frhcn8"><em>Handbok i reflektion kring borderline/EIPS</em></a> (2019) ISBN: 978-91-7819-161-1</li>
+        <li><a href="https://libris.kb.se/bib/7281229"><em>Psykoterapi i förvandling: befrielserörelse eller byråkrati? : Om psykoterapins framtid i Sverige</em></a> (1987) ISBN: 978-91-4615-418-1</li>
+      </ul>
+
+      <h3>National Healthcare Systems</h3>
+      <ul>
+        <li><a href="https://libris.kb.se/bib/17754290"><em>Kan den bli bättre – sjukvården? : En samspelsmodell bortom patientcentrerad vård</em></a> (2015) ISBN: 978-91-7609-616-1</li>
+        <li><a href="https://libris.kb.se/bib/8845846"><em>Leadership Dynamics: some reflections on business leadership</em></a> (2002) ISBN: 978-91-8631-209-1</li>
+        <li>Articles in <em>Dagens Medicin</em></li>
+      </ul>
+
+      <h3>Other Publications</h3>
+      <ul>
+        <li>Contributions to <em>Financial Times</em></li>
+        <li>Publications with Orient-Institut Istanbul</li>
       </ul>
     </section>
 
     <section>
       <h2>Work in Progress</h2>
-      <p>Ongoing research...</p>
+      <p>Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.</p>
     </section>
 
     <section class="board-section">
@@ -242,7 +255,7 @@
     </footer>
 
   </div>
-
+  
   <script>
     const board = document.getElementById("board");
     const stones = document.querySelectorAll(".stone");
@@ -258,11 +271,15 @@
 
     function startDrag(event) {
       event.preventDefault();
+
       activeStone = event.target;
 
-      const rect = activeStone.getBoundingClientRect();
-      offsetX = event.clientX - rect.left;
-      offsetY = event.clientY - rect.top;
+      const stoneRect = activeStone.getBoundingClientRect();
+
+      offsetX = event.clientX - stoneRect.left;
+      offsetY = event.clientY - stoneRect.top;
+
+      activeStone.style.zIndex = "20";
 
       document.addEventListener("mousemove", moveStone);
       document.addEventListener("mouseup", stopDrag);
@@ -285,6 +302,7 @@
 
     function stopDrag() {
       activeStone = null;
+
       document.removeEventListener("mousemove", moveStone);
       document.removeEventListener("mouseup", stopDrag);
     }
