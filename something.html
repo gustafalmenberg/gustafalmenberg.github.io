@@ -83,8 +83,12 @@
     let activeStone = null;
     let offsetX = 0;
     let offsetY = 0;
+    let startX = 0;
+    let startY = 0;
+    let moved = false;
 
     stones.forEach((stone) => {
+      stone.dataset.rotation = "0";
       stone.addEventListener("mousedown", startMouseDrag);
       stone.addEventListener("touchstart", startTouchDrag, { passive: false });
       stone.addEventListener("dragstart", (event) => event.preventDefault());
@@ -111,6 +115,10 @@
 
     function startDrag(clientX, clientY, target) {
       activeStone = target;
+      moved = false;
+
+      startX = clientX;
+      startY = clientY;
 
       const rect = activeStone.getBoundingClientRect();
 
@@ -118,7 +126,6 @@
       offsetY = clientY - rect.top;
 
       activeStone.style.zIndex = "20";
-      activeStone.dataset.lastX = activeStone.style.left;
     }
 
     function moveMouseStone(event) {
@@ -137,6 +144,9 @@
     function moveStone(clientX, clientY) {
       if (!activeStone) return;
 
+      const distance = Math.hypot(clientX - startX, clientY - startY);
+      if (distance > 4) moved = true;
+
       const boardRect = board.getBoundingClientRect();
 
       let x = clientX - boardRect.left - offsetX;
@@ -145,21 +155,20 @@
       x = Math.max(0, Math.min(x, boardRect.width - activeStone.offsetWidth));
       y = Math.max(0, Math.min(y, boardRect.height - activeStone.offsetHeight));
 
-      const previousX = parseFloat(activeStone.dataset.lastX) || x;
-      const dx = x - previousX;
-      const tilt = Math.max(-18, Math.min(18, dx * 0.8));
+      const rotation = activeStone.dataset.rotation || "0";
 
       activeStone.style.left = x + "px";
       activeStone.style.top = y + "px";
-      activeStone.style.transform = "rotate(" + tilt + "deg)";
-
-      activeStone.dataset.lastX = x;
+      activeStone.style.transform = "rotate(" + rotation + "deg)";
     }
 
     function stopDrag() {
-      if (activeStone) {
-        activeStone.style.transform = "rotate(0deg)";
-        activeStone.dataset.lastX = "";
+      if (activeStone && !moved) {
+        let rotation = parseFloat(activeStone.dataset.rotation || "0");
+        rotation += 15;
+
+        activeStone.dataset.rotation = rotation;
+        activeStone.style.transform = "rotate(" + rotation + "deg)";
       }
 
       activeStone = null;
