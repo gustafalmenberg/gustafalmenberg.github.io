@@ -1,3 +1,6 @@
+Paste this whole version:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,7 +99,7 @@
       display: inline-block;
       max-width: 500px;
       width: 100%;
-      touch-action: none;
+      overflow: hidden;
     }
 
     .board-image {
@@ -112,7 +115,6 @@
       height: 45px;
       cursor: grab;
       user-select: none;
-      touch-action: none;
       -webkit-user-drag: none;
     }
 
@@ -227,22 +229,27 @@
     let offsetY = 0;
 
     stones.forEach((stone) => {
-      stone.addEventListener("pointerdown", (event) => {
-        event.preventDefault();
-
-        activeStone = stone;
-
-        const stoneRect = stone.getBoundingClientRect();
-
-        offsetX = event.clientX - stoneRect.left;
-        offsetY = event.clientY - stoneRect.top;
-
-        stone.style.zIndex = "10";
-        stone.setPointerCapture(event.pointerId);
-      });
+      stone.addEventListener("mousedown", startDrag);
+      stone.addEventListener("dragstart", (event) => event.preventDefault());
     });
 
-    document.addEventListener("pointermove", (event) => {
+    function startDrag(event) {
+      event.preventDefault();
+
+      activeStone = event.target;
+
+      const stoneRect = activeStone.getBoundingClientRect();
+
+      offsetX = event.clientX - stoneRect.left;
+      offsetY = event.clientY - stoneRect.top;
+
+      activeStone.style.zIndex = "20";
+
+      document.addEventListener("mousemove", moveStone);
+      document.addEventListener("mouseup", stopDrag);
+    }
+
+    function moveStone(event) {
       if (!activeStone) return;
 
       const boardRect = board.getBoundingClientRect();
@@ -255,16 +262,17 @@
 
       activeStone.style.left = x + "px";
       activeStone.style.top = y + "px";
-    });
+    }
 
-    document.addEventListener("pointerup", () => {
+    function stopDrag() {
       activeStone = null;
-    });
 
-    document.addEventListener("pointercancel", () => {
-      activeStone = null;
-    });
+      document.removeEventListener("mousemove", moveStone);
+      document.removeEventListener("mouseup", stopDrag);
+    }
   </script>
 
 </body>
 </html>
+```
+
