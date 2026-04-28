@@ -102,6 +102,8 @@
     .board-image {
       width: 100%;
       display: block;
+      user-select: none;
+      pointer-events: none;
     }
 
     .stone {
@@ -111,6 +113,7 @@
       cursor: grab;
       user-select: none;
       touch-action: none;
+      -webkit-user-drag: none;
     }
 
     .stone:active {
@@ -204,8 +207,8 @@
       <div class="board" id="board">
         <img src="board.jpg" class="board-image" alt="Board">
 
-        <img src="stone1.png" class="stone" alt="Stone 1" style="left: 80px; top: 80px;">
-        <img src="stone2.png" class="stone" alt="Stone 2" style="left: 160px; top: 160px;">
+        <img src="stone1.png" class="stone" alt="Stone 1" draggable="false" style="left: 80px; top: 80px;">
+        <img src="stone2.png" class="stone" alt="Stone 2" draggable="false" style="left: 160px; top: 160px;">
       </div>
     </section>
 
@@ -219,44 +222,47 @@
     const board = document.getElementById("board");
     const stones = document.querySelectorAll(".stone");
 
-    stones.forEach((stone) => {
-      let offsetX = 0;
-      let offsetY = 0;
-      let dragging = false;
+    let activeStone = null;
+    let offsetX = 0;
+    let offsetY = 0;
 
+    stones.forEach((stone) => {
       stone.addEventListener("pointerdown", (event) => {
-        dragging = true;
+        event.preventDefault();
+
+        activeStone = stone;
 
         const stoneRect = stone.getBoundingClientRect();
 
         offsetX = event.clientX - stoneRect.left;
         offsetY = event.clientY - stoneRect.top;
 
+        stone.style.zIndex = "10";
         stone.setPointerCapture(event.pointerId);
       });
+    });
 
-      stone.addEventListener("pointermove", (event) => {
-        if (!dragging) return;
+    document.addEventListener("pointermove", (event) => {
+      if (!activeStone) return;
 
-        const boardRect = board.getBoundingClientRect();
+      const boardRect = board.getBoundingClientRect();
 
-        let x = event.clientX - boardRect.left - offsetX;
-        let y = event.clientY - boardRect.top - offsetY;
+      let x = event.clientX - boardRect.left - offsetX;
+      let y = event.clientY - boardRect.top - offsetY;
 
-        x = Math.max(0, Math.min(x, boardRect.width - stone.offsetWidth));
-        y = Math.max(0, Math.min(y, boardRect.height - stone.offsetHeight));
+      x = Math.max(0, Math.min(x, boardRect.width - activeStone.offsetWidth));
+      y = Math.max(0, Math.min(y, boardRect.height - activeStone.offsetHeight));
 
-        stone.style.left = x + "px";
-        stone.style.top = y + "px";
-      });
+      activeStone.style.left = x + "px";
+      activeStone.style.top = y + "px";
+    });
 
-      stone.addEventListener("pointerup", () => {
-        dragging = false;
-      });
+    document.addEventListener("pointerup", () => {
+      activeStone = null;
+    });
 
-      stone.addEventListener("pointercancel", () => {
-        dragging = false;
-      });
+    document.addEventListener("pointercancel", () => {
+      activeStone = null;
     });
   </script>
 
