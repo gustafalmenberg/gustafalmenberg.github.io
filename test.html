@@ -14,6 +14,7 @@
       align-items: center;
       height: 100vh;
       font-family: sans-serif;
+      overflow: hidden;
     }
 
     .board {
@@ -21,6 +22,7 @@
       width: 90vmin;
       max-width: 700px;
       overflow: hidden;
+      touch-action: none;
     }
 
     .board-image {
@@ -37,6 +39,7 @@
       cursor: grab;
       user-select: none;
       -webkit-user-drag: none;
+      touch-action: none;
     }
 
     .stone:active {
@@ -51,6 +54,7 @@
       text-decoration: none;
       font-size: 14px;
       opacity: 0.7;
+      z-index: 100;
     }
 
     .back:hover {
@@ -79,32 +83,61 @@
     let offsetY = 0;
 
     stones.forEach((stone) => {
-      stone.addEventListener("mousedown", startDrag);
-      stone.addEventListener("dragstart", (e) => e.preventDefault());
+      stone.addEventListener("mousedown", startMouseDrag);
+      stone.addEventListener("touchstart", startTouchDrag, { passive: false });
+      stone.addEventListener("dragstart", (event) => event.preventDefault());
     });
 
-    function startDrag(e) {
-      e.preventDefault();
+    function startMouseDrag(event) {
+      event.preventDefault();
+      startDrag(event.clientX, event.clientY, event.target);
 
-      activeStone = e.target;
-
-      const rect = activeStone.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-
-      activeStone.style.zIndex = "20";
-
-      document.addEventListener("mousemove", moveStone);
+      document.addEventListener("mousemove", moveMouseStone);
       document.addEventListener("mouseup", stopDrag);
     }
 
-    function moveStone(e) {
+    function startTouchDrag(event) {
+      event.preventDefault();
+
+      const touch = event.touches[0];
+      startDrag(touch.clientX, touch.clientY, event.target);
+
+      document.addEventListener("touchmove", moveTouchStone, { passive: false });
+      document.addEventListener("touchend", stopDrag);
+      document.addEventListener("touchcancel", stopDrag);
+    }
+
+    function startDrag(clientX, clientY, target) {
+      activeStone = target;
+
+      const rect = activeStone.getBoundingClientRect();
+
+      offsetX = clientX - rect.left;
+      offsetY = clientY - rect.top;
+
+      activeStone.style.zIndex = "20";
+    }
+
+    function moveMouseStone(event) {
+      moveStone(event.clientX, event.clientY);
+    }
+
+    function moveTouchStone(event) {
+      event.preventDefault();
+
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      moveStone(touch.clientX, touch.clientY);
+    }
+
+    function moveStone(clientX, clientY) {
       if (!activeStone) return;
 
       const boardRect = board.getBoundingClientRect();
 
-      let x = e.clientX - boardRect.left - offsetX;
-      let y = e.clientY - boardRect.top - offsetY;
+      let x = clientX - boardRect.left - offsetX;
+      let y = clientY - boardRect.top - offsetY;
 
       x = Math.max(0, Math.min(x, boardRect.width - activeStone.offsetWidth));
       y = Math.max(0, Math.min(y, boardRect.height - activeStone.offsetHeight));
@@ -116,8 +149,12 @@
     function stopDrag() {
       activeStone = null;
 
-      document.removeEventListener("mousemove", moveStone);
+      document.removeEventListener("mousemove", moveMouseStone);
       document.removeEventListener("mouseup", stopDrag);
+
+      document.removeEventListener("touchmove", moveTouchStone);
+      document.removeEventListener("touchend", stopDrag);
+      document.removeEventListener("touchcancel", stopDrag);
     }
   </script>
 
