@@ -239,74 +239,11 @@
       <p>Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.</p>
     </section>
 
-    <section class="board-section">
-      <h2>Test</h2>
-
-      <div class="board" id="board">
-        <img src="board.jpg" class="board-image" alt="Board">
-
-        <img src="stone1.png" class="stone" draggable="false" style="left: 80px; top: 80px;">
-        <img src="stone2.png" class="stone" draggable="false" style="left: 160px; top: 160px;">
-      </div>
-    </section>
-
     <footer>
       © Gustaf Almenberg
     </footer>
 
   </div>
   
-  <script>
-    const board = document.getElementById("board");
-    const stones = document.querySelectorAll(".stone");
-
-    let activeStone = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    stones.forEach((stone) => {
-      stone.addEventListener("mousedown", startDrag);
-      stone.addEventListener("dragstart", (event) => event.preventDefault());
-    });
-
-    function startDrag(event) {
-      event.preventDefault();
-
-      activeStone = event.target;
-
-      const stoneRect = activeStone.getBoundingClientRect();
-
-      offsetX = event.clientX - stoneRect.left;
-      offsetY = event.clientY - stoneRect.top;
-
-      activeStone.style.zIndex = "20";
-
-      document.addEventListener("mousemove", moveStone);
-      document.addEventListener("mouseup", stopDrag);
-    }
-
-    function moveStone(event) {
-      if (!activeStone) return;
-
-      const boardRect = board.getBoundingClientRect();
-
-      let x = event.clientX - boardRect.left - offsetX;
-      let y = event.clientY - boardRect.top - offsetY;
-
-      x = Math.max(0, Math.min(x, boardRect.width - activeStone.offsetWidth));
-      y = Math.max(0, Math.min(y, boardRect.height - activeStone.offsetHeight));
-
-      activeStone.style.left = x + "px";
-      activeStone.style.top = y + "px";
-    }
-
-    function stopDrag() {
-      activeStone = null;
-
-      document.removeEventListener("mousemove", moveStone);
-      document.removeEventListener("mouseup", stopDrag);
-    }
-  </script>
-
 </body>
 </html>
