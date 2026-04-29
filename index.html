@@ -53,17 +53,40 @@
     }
 
     .sidebar {
-      width: 270px;
-      padding: 40px 25px;
+      width: 280px;
+      padding: 35px 25px;
       border-right: 1px solid #ddd;
       background: #fafafa;
       color: #444;
-      font-size: 0.95em;
       box-sizing: border-box;
+    }
+
+    .sidebar-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 22px;
+      background: #ddd;
+      border-radius: 6px;
+    }
+
+    .sidebar h1 {
+      margin: 0 0 6px;
+      font-size: 1.45em;
+      font-weight: 600;
+      line-height: 1.25;
+      color: #222;
+    }
+
+    .sidebar .subtitle {
+      color: #666;
+      margin-bottom: 25px;
     }
 
     .sidebar p {
       margin: 0 0 18px;
+      font-size: 0.95em;
     }
 
     .sidebar a {
@@ -80,32 +103,6 @@
       padding: 40px 35px;
       background: #ffffff;
       box-sizing: border-box;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    header img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 50%;
-      background: #ddd;
-      display: block;
-      margin: 0 auto 20px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 2em;
-      font-weight: 600;
-    }
-
-    .subtitle {
-      color: #666;
-      margin-top: 5px;
     }
 
     section {
@@ -165,6 +162,10 @@
         border-bottom: 1px solid #ddd;
       }
 
+      .sidebar-photo {
+        max-width: 260px;
+      }
+
       .container {
         padding: 35px 20px;
       }
@@ -185,18 +186,17 @@
   <div class="page">
 
     <aside class="sidebar">
+      <img src="photo.jpg" alt="Portrait of Gustaf Almenberg" class="sidebar-photo">
+
+      <h1>Gustaf Almenberg</h1>
+      <div class="subtitle">Stockholm, Sweden</div>
+
       <p>📍 Stockholm, Sweden</p>
       <p>✉️ <a href="mailto:Gustaf.almenberg@gmail.com">Email</a></p>
       <p>👥 Erik Almenberg and Johan Almenberg</p>
     </aside>
 
     <main class="container">
-
-      <header>
-        <img src="photo.jpg" alt="Portrait of Gustaf Almenberg">
-        <h1>Gustaf Almenberg</h1>
-        <div class="subtitle">Stockholm, Sweden</div>
-      </header>
 
       <section>
         <h2>Overview</h2>
