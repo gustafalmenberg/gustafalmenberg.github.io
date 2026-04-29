@@ -35,20 +35,51 @@
       color: #777;
     }
 
-    .nav-right a:hover {
+    .nav-right a:hover,
+    .nav-right a.active {
       color: #000;
     }
 
     .nav-right a.active {
-      color: #000;
       font-weight: 500;
     }
 
-    .container {
-      max-width: 800px;
+    .page {
+      max-width: 1050px;
       margin: 0 auto;
-      padding: 40px 20px;
+      display: flex;
+      background: #fff;
+      min-height: calc(100vh - 55px);
+    }
+
+    .sidebar {
+      width: 270px;
+      padding: 40px 25px;
+      border-right: 1px solid #ddd;
+      background: #fafafa;
+      color: #444;
+      font-size: 0.95em;
+      box-sizing: border-box;
+    }
+
+    .sidebar p {
+      margin: 0 0 18px;
+    }
+
+    .sidebar a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      flex: 1;
+      padding: 40px 35px;
       background: #ffffff;
+      box-sizing: border-box;
     }
 
     header {
@@ -116,44 +147,27 @@
       font-size: 0.95em;
     }
 
-    .board-section {
-      text-align: center;
-      margin-top: 50px;
-    }
-
-    .board {
-      position: relative;
-      display: inline-block;
-      max-width: 500px;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .board-image {
-      width: 100%;
-      display: block;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .stone {
-      position: absolute;
-      width: 45px;
-      height: 45px;
-      cursor: grab;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .stone:active {
-      cursor: grabbing;
-    }
-
     footer {
       text-align: center;
       font-size: 0.9em;
       color: #777;
       margin-top: 40px;
+    }
+
+    @media (max-width: 750px) {
+      .page {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: auto;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .container {
+        padding: 35px 20px;
+      }
     }
   </style>
 </head>
@@ -168,83 +182,108 @@
     </div>
   </nav>
 
-  <div class="container">
+  <div class="page">
 
-    <header>
-      <img src="photo.jpg" alt="Portrait of Gustaf Almenberg">
-      <h1>Gustaf Almenberg</h1>
-      <div class="subtitle">Stockholm, Sweden</div>
-    </header>
+    <aside class="sidebar">
+      <p>📍 Stockholm, Sweden</p>
+      <p>✉️ <a href="mailto:Gustaf.almenberg@gmail.com">Email</a></p>
+      <p>👥 Erik Almenberg and Johan Almenberg</p>
+    </aside>
 
-    <section>
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:Gustaf.almenberg@gmail.com">gustaf.almenberg@gmail.com</a></p>
-    </section>
+    <main class="container">
 
-    <section>
-      <h2>Family</h2>
-      <p>Erik Almenberg and Johan Almenberg</p>
-    </section>
+      <header>
+        <img src="photo.jpg" alt="Portrait of Gustaf Almenberg">
+        <h1>Gustaf Almenberg</h1>
+        <div class="subtitle">Stockholm, Sweden</div>
+      </header>
 
-    <section>
-      <h2>Overview</h2>
-      <p>Gustaf Almenberg is based in Stockholm, Sweden.</p>
-    </section>
+      <section>
+        <h2>Overview</h2>
+        <p>Gustaf Almenberg is based in Stockholm, Sweden.</p>
+      </section>
 
-    <section>
-      <h2>Present Areas of Interest</h2>
-      <ul>
-        <li><strong>Participatory Art</strong> – Developments in the theory behind participatory art as well as the development of participatory approaches in sculpture and photography.</li>
-        <li><strong>Reconceptualising Psychiatry</strong> – Toward a more integrated framework complementing DSM and ICD models.</li>
-        <li><strong>Healthcare Systems</strong> – Organizational models for national healthcare and systemic reform.</li>
-        <li><strong>Interdisciplinary Dynamics</strong> – Work at the intersection of psychology, psychiatry, philosophy, and theology.</li>
-      </ul>
-    </section>
+      <section>
+        <h2>Present Areas of Interest</h2>
+        <ul>
+          <li><strong>Participatory Art</strong> – Developments in the theory behind participatory art as well as the development of participatory approaches in sculpture and photography.</li>
+          <li><strong>Reconceptualising Psychiatry</strong> – Toward a more integrated framework complementing DSM and ICD models.</li>
+          <li><strong>Healthcare Systems</strong> – Organizational models for national healthcare and systemic reform.</li>
+          <li><strong>Interdisciplinary Dynamics</strong> – Work at the intersection of psychology, psychiatry, philosophy, and theology.</li>
+        </ul>
+      </section>
 
-    <section>
-      <h2>Related Publications</h2>
+      <section>
+        <h2>Related Publications</h2>
 
-      <h3>Art</h3>
-      <ul>
-        <li>
-          <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s"><em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em></a>, (2010) ISBN: 978-1-4520-3956-5
-          <br>
-          <span class="small">(First solo exhibition at Galleri Händer, Stockholm, in 1982)</span>
-        </li>
-      </ul>
+        <h3>Art</h3>
+        <ul>
+          <li>
+            <a href="https://libris.kb.se/bib/kv3kxzrvh6sg2b4s">
+              <em>Notes on Participatory Art: Toward a Manifesto Differentiating it from Open Work, Interactive Art and Relational Art</em>
+            </a>, (2010) ISBN: 978-1-4520-3956-5
+            <br>
+            <span class="small">(First solo exhibition at Galleri Händer, Stockholm, in 1982)</span>
+          </li>
+        </ul>
 
-      <h3>Psychiatry & Psychotherapy</h3>
-      <ul>
-        <li>"Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm", <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf"><em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)</a></li>
-        <li><a href="https://libris.kb.se/bib/2cd401g603frhcn8"><em>Handbok i reflektion kring borderline/EIPS</em></a> (2019) ISBN: 978-91-7819-161-1</li>
-        <li><a href="https://libris.kb.se/bib/7281229"><em>Psykoterapi i förvandling: befrielserörelse eller byråkrati? : Om psykoterapins framtid i Sverige</em></a> (1987) ISBN: 978-91-4615-418-1</li>
-      </ul>
+        <h3>Psychiatry &amp; Psychotherapy</h3>
+        <ul>
+          <li>
+            "Om behovet och framväxten av ett nytt komplementärt psykiatriskt paradigm",
+            <a href="https://www.svenskpsykiatri.se/wp-content/uploads/2024/12/SP-nr-4-2024-till-hemsidan.pdf">
+              <em>Tidskriften för Svensk Psykiatri</em>, 4 (2024)
+            </a>
+          </li>
+          <li>
+            <a href="https://libris.kb.se/bib/2cd401g603frhcn8">
+              <em>Handbok i reflektion kring borderline/EIPS</em>
+            </a> (2019) ISBN: 978-91-7819-161-1
+          </li>
+          <li>
+            <a href="https://libris.kb.se/bib/7281229">
+              <em>Psykoterapi i förvandling: befrielserörelse eller byråkrati? : Om psykoterapins framtid i Sverige</em>
+            </a> (1987) ISBN: 978-91-4615-418-1
+          </li>
+        </ul>
 
-      <h3>National Healthcare Systems</h3>
-      <ul>
-        <li><a href="https://libris.kb.se/bib/17754290"><em>Kan den bli bättre – sjukvården? : En samspelsmodell bortom patientcentrerad vård</em></a> (2015) ISBN: 978-91-7609-616-1</li>
-        <li><a href="https://libris.kb.se/bib/8845846"><em>Leadership Dynamics: some reflections on business leadership</em></a> (2002) ISBN: 978-91-8631-209-1</li>
-        <li>Articles in <em>Dagens Medicin</em></li>
-      </ul>
+        <h3>National Healthcare Systems</h3>
+        <ul>
+          <li>
+            <a href="https://libris.kb.se/bib/17754290">
+              <em>Kan den bli bättre – sjukvården? : En samspelsmodell bortom patientcentrerad vård</em>
+            </a> (2015) ISBN: 978-91-7609-616-1
+          </li>
+          <li>
+            <a href="https://libris.kb.se/bib/8845846">
+              <em>Leadership Dynamics: some reflections on business leadership</em>
+            </a> (2002) ISBN: 978-91-8631-209-1
+          </li>
+          <li>Articles in <em>Dagens Medicin</em></li>
+        </ul>
 
-      <h3>Other Publications</h3>
-      <ul>
-        <li>Contributions to <em>Financial Times</em></li>
-        <li>Publications with Orient-Institut Istanbul</li>
-      </ul>
-    </section>
+        <h3>Other Publications</h3>
+        <ul>
+          <li>Contributions to <em>Financial Times</em></li>
+          <li>Publications with Orient-Institut Istanbul</li>
+        </ul>
+      </section>
 
-    <section>
-      <h2>Work in Progress</h2>
-      <li>An integrated reconceptualization of mental health complementing DSM and ICD models.</em></li>
-      <li>Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.</em></li>
-    </section>
+      <section>
+        <h2>Work in Progress</h2>
+        <ul>
+          <li>An integrated reconceptualization of mental health complementing DSM and ICD models.</li>
+          <li>Ongoing research on the dynamics at the intersection of psychology, psychiatry, philosophy, and theology.</li>
+        </ul>
+      </section>
 
-    <footer>
-      © Gustaf Almenberg
-    </footer>
+      <footer>
+        © Gustaf Almenberg
+      </footer>
+
+    </main>
 
   </div>
-  
+
 </body>
 </html>
